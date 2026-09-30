@@ -47,35 +47,23 @@ export const App = () => {
       return;
     }
 
-    let isCurrentRequest = true;
-
     setPosts([]);
     setApiError(null);
     setIsPostsLoading(true);
 
     getPostsByUserId(selectedUser.id)
       .then(loadedPosts => {
-        if (isCurrentRequest) {
-          setPosts(loadedPosts);
-        }
+        setPosts(loadedPosts);
       })
       .catch(() => {
-        if (isCurrentRequest) {
-          setApiError({
-            source: 'posts',
-            message: 'Could not load posts',
-          });
-        }
+        setApiError({
+          source: 'posts',
+          message: 'Could not load posts',
+        });
       })
       .finally(() => {
-        if (isCurrentRequest) {
-          setIsPostsLoading(false);
-        }
+        setIsPostsLoading(false);
       });
-
-    return () => {
-      isCurrentRequest = false;
-    };
   }, [selectedUser]);
 
   useEffect(() => {
